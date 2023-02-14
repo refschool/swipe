@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOUCH</title>
+    <style>
+        .rectangle {
+            border: 1px solid black;
+            height: 100px;
+            position: relative;
+            transition: left 0.4s;
+            left: 0;
+        }
+
+        #coordinates {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div id="one" class="rectangle">TOUCH ME</div>
+    </div>
+    <div id="coordinates">
+
+    </div>
+    <div id="detection">
+        Movement detected
+    </div>
+</body>
+<script>
+    let rec = document.querySelector('#one')
+    let move = document.querySelector('#detection')
+    let coord = document.querySelector('#coordinates')
+    let startx = 0
+    let starty = 0
+    let endx = 0
+    let endy = 0
+
+    //create custom Event
+    const swipeLeft = new Event("swipeLeft");
+    const swipeRight = new Event("swipeRight");
+    document.addEventListener('swipeLeft', (e) => {
+        console.log("swipe left !")
+    })
+
+    document.addEventListener('swipeRight', (e) => {
+        console.log("swipe right !", e)
+        //  e.target.style.setProperty('left', '350px');
+        // setTimeout(() => {
+        //     e.target.remove()
+        // }, 1000)
+
+    })
+
+    rec.addEventListener('touchstart', (e) => {
+        //console.log('touch started', e)
+        //console.log('screenX ', e.touches[0].screenX)
+        //console.log('pageX ', e.touches[0].pageX)
+        console.log('clientX ', e.touches[0].clientX)
+        startx = e.touches[0].clientX
+
+    })
+
+    rec.addEventListener('touchend', (e) => {
+        //console.log('touch dended', e)
+        console.log(startx, " ", endx)
+        if ((startx - endx) < 0) {
+            //emit event slide swipeRight
+            document.dispatchEvent(swipeRight)
+        } else {
+            //emit slideleft event
+            document.dispatchEvent(swipeLeft)
+        }
+    })
+
+    rec.addEventListener('touchmove', (e) => {
+        //console.log('touch moving', e)
+        //console.log('touch moving', e.touches[0].clientX)
+        endx = e.touches[0].clientX
+    })
+
+    rec.addEventListener('touchcancel', (e) => {
+        console.log('touch canceled', e)
+    })
+</script>
+
+</html>
