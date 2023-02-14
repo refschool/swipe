@@ -47,14 +47,19 @@
     const swipeRight = new Event("swipeRight");
     document.addEventListener('swipeLeft', (e) => {
         console.log("swipe left !")
+        e.origin.target.style.setProperty('left', '-50px');
+        setTimeout(() => {
+            e.origin.target.innerHTML = "UPDATED"
+            e.origin.target.style.setProperty('left', '0px');
+        }, 700)
     })
 
     document.addEventListener('swipeRight', (e) => {
-        console.log("swipe right !", e)
-        //  e.target.style.setProperty('left', '350px');
-        // setTimeout(() => {
-        //     e.target.remove()
-        // }, 1000)
+        console.log("swipe right !", e.origin)
+        e.origin.target.style.setProperty('left', '350px');
+        setTimeout(() => {
+            e.origin.target.remove()
+        }, 700)
 
     })
 
@@ -72,9 +77,11 @@
         console.log(startx, " ", endx)
         if ((startx - endx) < 0) {
             //emit event slide swipeRight
+            swipeRight.origin = e
             document.dispatchEvent(swipeRight)
         } else {
             //emit slideleft event
+            swipeLeft.origin = e
             document.dispatchEvent(swipeLeft)
         }
     })
