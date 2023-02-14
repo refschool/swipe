@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWIPE</title>
+    <style>
+        .rectangle {
+            border: 1px solid black;
+            height: 100px;
+            position: relative;
+            transition: left 0.4s;
+            left: 0;
+        }
+
+        #coordinates {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div id="one" class="rectangle">SWIPE ME</div>
+    </div>
+    <div id="coordinates">
+
+    </div>
+    <div id="detection">
+        Movement detected
+    </div>
+</body>
+<script>
+    let drag = false
+    let startx = 0
+    let starty = 0
+    let endx = 0
+    let endy = 0
+    let rec = document.querySelector('#one')
+    let move = document.querySelector('#detection')
+    let coord = document.querySelector('#coordinates')
+
+    rec.addEventListener('mousemove', (e) => {
+        if (drag === true) {
+            coord.innerHTML = `x = ${e.x}, y = ${e.y}`
+        }
+    })
+
+    rec.addEventListener('mousedown', (e) => {
+        drag = true
+        startx = e.x
+        starty = e.y
+    })
+
+    rec.addEventListener('mouseup', (e) => {
+        drag = false
+        endx = e.x
+        endy = e.y
+        e.target.style.setProperty('left', '350px');
+        setTimeout(() => {
+            e.target.remove()
+
+        }, 400)
+    })
+</script>
+
+</html>
